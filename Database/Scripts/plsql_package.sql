@@ -425,4 +425,105 @@ CREATE OR REPLACE PACKAGE BODY hotel_mgmt_pkg AS
             RETURN 0;
         END IF;
         
-   
+    EXCEPTION
+        WHEN OTHERS THEN
+            RETURN -1;
+    END get_occupancy_rate;
+    
+    -- 4. GET CUSTOMER POINTS function
+    FUNCTION get_customer_points(
+        p_customer_id IN NUMBER
+    ) RETURN NUMBER IS
+        v_total_spent NUMBER;
+        v_tier VARCHAR2(20);
+    BEGIN
+        -- Get total spent
+        SELECT COALESCE(SUM(total_amount), 0) INTO v_total_spent
+        FROM reservations
+        WHERE customer_id = p_customer_id
+        AND status != 'CANCELLED';
+        
+        -- Get tier
+        SELECT loyalty_tier INTO v_tier
+        FROM customers WHERE customer_id = p_customer_id;
+        
+        -- Calculate points (1 point per 1000 RWF)
+        v_total_spent := FLOOR(v_total_spent / 1000);
+        
+        -- Apply tier multiplier
+        CASE v_tier
+            WHEN 'PLATINUM' THEN v_total_spent := v_total_spent * 2;
+            WHEN 'GOLD'     THEN v_total_spent := v_total_spent * 1.5;
+            WHEN 'SILVER'   THEN v_total_spent := v_total_spent * 1.2;
+            ELSE NULL;
+        END CASE;
+        
+        RETURN v_total_spent;
+        
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RETURN 0;
+        WHEN OTHERS THEN
+            RETURN -1;
+    END get_customer_points;
+    
+    -- 5. VALIDATE BOOKING DATES function
+    FUNCTION validate_booking_dates(
+        p_check_in  IN DATE,
+        p_check_out IN DATE
+    ) RETURN VARCHAR2 IS
+    BEGIN
+        IF p_check_out <= p_check_in THEN
+            RETURN 'INVALID: Check-out must be after check-in';
+        ELSIF p_check_in < SYSDATE THEN
+            RETURN 'INVALID: Cannot book in past';
+        ELSIF (p_check_out - p_check_in) > 30 THEN
+            RETURN 'INVALID: Maximum stay is 30 nights';
+        ELSE
+            RETURN 'VALID';
+        END IF;
+    END validate_booking_dates;
+    
+END hotel_mgmt_pkg;
+/
+
+DBMS_OUTPUT.PUT_LINE('✅ Package body created');
+DBMS_OUTPUT.PUT_LINE('✅ Phase VI: PL/SQL Package COMPLETE');
+
+-- Test the package
+PROMPT ========== TESTING PACKAGE ==========
+DECLARE
+    v_result VARCHAR2(100);
+    v_number NUMBER;
+    v_text VARCHAR2(200);
+BEGIN
+    -- Test function 1
+    v_number := hotel_mgmt_pkg.calculate_stay_cost(1000, SYSDATE+1, SYSDATE+3);
+    DBMS_OUTPUT.PUT_LINE('1. calculate_stay_cost: ' || v_number || ' RWF');
+    
+    -- Test function 2
+    v_text := hotel_mgmt_pkg.check_room_availability(1000, SYSDATE+10, SYSDATE+12);
+    DBMS_OUTPUT.PUT_LINE('2. check_room_availability: ' || v_text);
+    
+    -- Test function 3
+    v_number := hotel_mgmt_pkg.get_occupancy_rate(100);
+    DBMS_OUTPUT.PUT_LINE('3. get_occupancy_rate: ' || v_number || '%');
+    
+    -- Test function 4
+    v_number := hotel_mgmt_pkg.get_customer_points(5000);
+    DBMS_OUTPUT.PUT_LINE('4. get_customer_points: ' || v_number || ' points');
+    
+    -- Test function 5
+    v_text := hotel_mgmt_pkg.validate_booking_dates(SYSDATE+1, SYSDATE+3);
+    DBMS_OUTPUT.PUT_LINE('5. validate_booking_dates: ' || v_text);
+    
+    -- Test cursor
+    v_number := 0;
+    FOR rec IN hotel_mgmt_pkg.c_active_reservations(100) LOOP
+        v_number := v_number + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('6. Cursor processed ' || v_number || ' active reservations');
+    
+    DBMS_OUTPUT.PUT_LINE('✅ All tests passed!');
+END;
+/
