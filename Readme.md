@@ -87,8 +87,52 @@ A **PL/SQL-based Hotel Reservation & Room Management System** that:
 
 ## 📌 BPMN Diagram
 
-> 📸 *Insert BPMN Diagram Screenshot Here*
+> ![BPMN diagram](https://github.com/Diego526-hub/PL-AND-SQL-FINAL-PROJ/blob/main/Database/Documentation/BPMN%20diagram.svg)
 
-```text
-screenshots/bpmn_diagram.png
-![BPMN diagram](https://github.com/Diego526-hub/PL-AND-SQL-FINAL-PROJ/blob/main/Database/Documentation/BPMN%20diagram.svg)
+# ✅ Phase III: Logical Database Design
+
+## 📊 Entities (7 Tables)
+
+| Table Name | Description |
+|-----------|-------------|
+| HOTELS | Hotel master information |
+| ROOMS | Room inventory |
+| CUSTOMERS | Guest information |
+| RESERVATIONS | Booking transactions |
+| PAYMENTS | Payment details |
+| HOLIDAYS | Public holidays |
+| AUDIT_LOG | System audit trail |
+
+## 🧩 ER Diagram
+> ![ER DIAGRAM](
+
+## ✅ Normalization
+1NF: Atomic values  
+2NF: No partial dependencies  
+3NF: No transitive dependencies  
+
+Database is fully compliant with **Third Normal Form (3NF)**.
+
+--------------------------------------------------------------------
+
+# ✅ Phase IV: Database Creation
+
+## 🗄️ Pluggable Database (PDB)
+
+PDB Name: tue_27395_diego_hotel_db  
+Admin User: hotel_admin  
+Password: diego  
+
+```sql
+CREATE PLUGGABLE DATABASE tue_27395_diego_hotel_db
+ADMIN USER admin IDENTIFIED BY diego
+FILE_NAME_CONVERT = (
+ '/opt/oracle/oradata/CDB/pdbseed/',
+ '/opt/oracle/oradata/CDB/tue_27395_diego_hotel_db/'
+);
+
+ALTER PLUGGABLE DATABASE tue_27395_diego_hotel_db OPEN;
+ALTER SESSION SET CONTAINER = tue_27395_diego_hotel_db;
+
+
+
