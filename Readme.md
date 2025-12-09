@@ -104,7 +104,7 @@ A **PL/SQL-based Hotel Reservation & Room Management System** that:
 | AUDIT_LOG | System audit trail |
 
 ## 🧩 ER Diagram
-> ![ER DIAGRAM](
+> ![ER DIAGRAM](https://github.com/Diego526-hub/PL-AND-SQL-FINAL-PROJ/blob/main/Database/Documentation/ER%20diagram%20final.drawio.png)
 
 ## ✅ Normalization
 1NF: Atomic values  
@@ -123,7 +123,7 @@ PDB Name: tue_27395_diego_hotel_db
 Admin User: hotel_admin  
 Password: diego  
 
-```sql
+sql
 CREATE PLUGGABLE DATABASE tue_27395_diego_hotel_db
 ADMIN USER admin IDENTIFIED BY diego
 FILE_NAME_CONVERT = (
@@ -133,6 +133,62 @@ FILE_NAME_CONVERT = (
 
 ALTER PLUGGABLE DATABASE tue_27395_diego_hotel_db OPEN;
 ALTER SESSION SET CONTAINER = tue_27395_diego_hotel_db;
+
+# ✅ Phase V: Table Implementation & Data Insertion
+
+Tables Implemented:
+HOTELS  
+ROOMS  
+CUSTOMERS  
+RESERVATIONS  
+PAYMENTS  
+HOLIDAYS  
+AUDIT_LOG  
+
+Validation Queries:
+sql
+SELECT COUNT(*) FROM hotels;
+SELECT COUNT(*) FROM rooms;
+SELECT COUNT(*) FROM customers;
+SELECT COUNT(*) FROM reservations;
+SELECT COUNT(*) FROM payments;
+SELECT COUNT(*) FROM holidays;
+SELECT COUNT(*) FROM audit_log; 
+
+![all tables](https://github.com/user-attachments/assets/1240edf2-9c46-48f4-be1d-9bc981919676)
+
+# ✅ Phase VI: PL/SQL Development
+
+Package Name:
+HOTEL_MGMT_PKG
+
+--------------------------------------------------
+
+Procedures:
+- make_reservation
+- check_in_guest
+- check_out_guest
+- cancel_reservation
+- update_room_prices
+
+--------------------------------------------------
+
+Functions:
+- calculate_stay_cost
+- check_room_availability
+- get_occupancy_rate
+- get_customer_points
+- validate_booking_dates
+
+--------------------------------------------------
+
+Window Functions Used:
+- ROW_NUMBER()
+- RANK()
+- LAG()
+- LEAD()
+
+--------------------------------------------------
 
 
 
