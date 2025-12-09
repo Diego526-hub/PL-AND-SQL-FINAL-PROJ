@@ -192,3 +192,70 @@ Window Functions Used:
 
 
 
+## ✅ Phase VII: Advanced Programming & Auditing
+
+### 🔒 Business Rule
+No `INSERT`, `UPDATE`, or `DELETE` allowed on:
+- Weekdays (Monday–Friday)  
+- Registered public holidays  
+
+### 🧾 Audit Table
+sql
+CREATE TABLE audit_log (
+  audit_id NUMBER GENERATED AS IDENTITY PRIMARY KEY,
+  username VARCHAR2(50),
+  action_type VARCHAR2(10),
+  target_table VARCHAR2(50),
+  action_time DATE DEFAULT SYSDATE,
+  success_flag CHAR(1),
+  reason VARCHAR2(200)
+);
+
+## ✅ Phase VIII: Final Documentation & Presentation
+
+- ✅ GitHub Repository Completed  
+- ✅ Final PowerPoint Presentation  
+- ✅ Business Intelligence Outputs  
+- ✅ System Testing Completed  
+
+
+---
+
+## 📈 Business Intelligence
+
+The system supports:
+- Occupancy rate analysis  
+- Revenue trends  
+- Seasonal demand patterns  
+- Customer loyalty tracking  
+
+---
+
+## 🧠 Key Achievements
+- 7 Fully normalized tables  
+- Secure booking with business rule enforcement  
+- Automated billing  
+- Audit-ready system  
+- BI-ready analytical queries  
+
+---
+
+## 💬 Acknowledgment
+I sincerely thank **Mr. Eric Maniraguha** and the **IT Faculty at AUCA** for their guidance, support, and mentorship throughout this course and project.
+
+---
+
+## 📚 References
+- Oracle Corporation (2021). *Oracle Database 21c Documentation*  
+- Feuerstein, S. & Pribyl, B. (2021). *Oracle PL/SQL Programming*  
+- Connolly & Begg (2015). *Database Systems*  
+- Elmasri & Navathe (2016). *Fundamentals of Database Systems*  
+
+---
+
+## 📄 License
+This project is submitted as part of the Capstone Project for **Database Development with PL/SQL**, Academic Year 2025–2026,  
+Adventist University of Central Africa (AUCA).  
+
+*"Good systems create good service."*
+
