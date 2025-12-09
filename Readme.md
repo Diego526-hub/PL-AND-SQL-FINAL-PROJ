@@ -225,9 +225,9 @@ CREATE TABLE audit_log (
 
 The system supports:
 - Occupancy rate analysis  
-- Revenue trends  
-- Seasonal demand patterns  
-- Customer loyalty tracking  
+
+**Dashboard**
+![Dashboardd](https://github.com/user-attachments/assets/b2bbf7ca-92bb-4603-a1f0-de488150f0cf)
 
 ---
 
